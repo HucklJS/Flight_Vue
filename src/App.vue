@@ -5,6 +5,9 @@
     <FiltersBar
       @change-sort-order="changeSortOrder"
       :sorting-order="sortingOrder"
+
+      @add-to-filters="addToFilters"
+      :filters="filters"
     />
     <Flights
       :flights-on-page="flightsOnPage"
@@ -29,6 +32,7 @@ export default {
     return {
       sortingOrder: 'inc',
       numberOfFlightsPerPage: 2,
+      filters: [],
       flights: result.flights
     }
   },
@@ -36,6 +40,7 @@ export default {
     flightsOnPage() {
       return [...this.flights]
         .sort(this._getSortFunction(this.sortingOrder))
+        .filter(f => !this.filters.length || this.filters.includes(this._getNumberOfTransfers(f)))
         .slice(0, this.numberOfFlightsPerPage)
     }
   },
@@ -43,6 +48,18 @@ export default {
     changeSortOrder($event) {
       this.sortingOrder = $event.target.value
     },
+    addToFilters($event) {
+      const value = $event.target.value
+      console.log(value)
+
+      if (this.filters.includes(value)) {
+        this.filters = this.filters.filter(filter => filter !== value)
+      } else {
+        this.filters.push(value)
+      }
+    },
+
+
     _getSortFunction(sortingOrder) {
       switch (sortingOrder) {
         case 'inc':
@@ -53,14 +70,19 @@ export default {
           return (a, b) => a.flight.legs.reduce((totalTime, leg) => totalTime + leg.duration, 0)
             - b.flight.legs.reduce((totalTime, leg) => totalTime + leg.duration, 0)
       }
+    },
+    _getNumberOfTransfers(f) {
+      const transfers = f.flight.legs.reduce((transfers, leg) => transfers + leg.segments.length - 1, 0)
+      return String(transfers)
     }
   },
-  created() {
-    const item = result.flights.find(item => item.flight.price.total.amount === '21049')
-    console.log(item)
-    console.log(item.flight.legs.reduce((prev, leg) => prev + leg.duration, 0))
-    console.log(this.flightsOnPage)
-  }
+  // created() {
+  //   const item = result.flights.find(item => item.flight.price.total.amount === '21049')
+  //   console.log(item)
+  //   console.log(item.flight.legs.reduce((prev, leg) => prev + leg.duration, 0))
+  //   console.log(this.flightsOnPage)
+  //   console.log(this._getNumberOfTransfers(item))
+  // }
 }
 </script>
 

@@ -14,16 +14,21 @@
         ><span> - по времени в пути</span></label>
       </div>
 
-      <div class="filtering-block block">
+      <div class="filtering-block block" @change.prevent="$emit('add-to-filters', $event)">
         <span class="block-title">Фильтровать</span>
-        <label><input type="checkbox" class="sorting-checkbox" name="with"><span> - 1 пересадка</span></label>
-        <label><input type="checkbox" class="sorting-checkbox" name="without"><span> - без пересадок</span></label>
+        <label>
+          <input type="checkbox" class="sorting-checkbox" value="1" name="one" :checked="filters.includes('1')">
+          <span> - 1 пересадка</span></label>
+        <label>
+          <input type="checkbox" class="sorting-checkbox" value="0" name="without" :checked="filters.includes('0')">
+          <span> - без пересадок</span>
+        </label>
       </div>
 
       <div class="price-block block">
         <span class="block-title">Цена</span>
-        <label><span>От</span><input class="sorting-input" name="from"></label>
-        <label><span>До</span><input class="sorting-input" name="to"></label>
+        <label><span>От</span><input class="sorting-input" name="from" value="0"></label>
+        <label><span>До</span><input class="sorting-input" name="to" value="1000000"></label>
       </div>
 
       <div class="avia-companies-block block">
@@ -38,7 +43,8 @@
 <script>
   export default {
     props: {
-      sortingOrder: String
+      sortingOrder: String,
+      filters: Array
     }
   }
 </script>

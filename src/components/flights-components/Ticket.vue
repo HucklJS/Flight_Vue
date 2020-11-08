@@ -54,9 +54,6 @@
 
     methods: {
       getTime(strDate) {
-        console.log(strDate)
-        console.log('Date.parse(strDate): '+Date.parse(strDate))
-        console.log(new Date(Date.parse(strDate)))
         const date = new Date(Date.parse(strDate))
 
         return `${date.getHours()}:${date.getMinutes()}`
