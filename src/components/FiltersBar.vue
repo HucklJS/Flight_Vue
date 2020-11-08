@@ -14,7 +14,7 @@
         ><span> - по времени в пути</span></label>
       </div>
 
-      <div class="filtering-block block" @change.prevent="$emit('add-to-filters', $event)">
+      <div class="filtering-block block" @change="$emit('add-to-filters', $event)">
         <span class="block-title">Фильтровать</span>
         <label>
           <input type="checkbox" class="sorting-checkbox" value="1" name="one" :checked="filters.includes('1')">
@@ -25,10 +25,10 @@
         </label>
       </div>
 
-      <div class="price-block block">
+      <div class="price-block block" @input="$emit('change-price-range', $event)">
         <span class="block-title">Цена</span>
-        <label><span>От</span><input class="sorting-input" name="from" value="0"></label>
-        <label><span>До</span><input class="sorting-input" name="to" value="1000000"></label>
+        <label><span>От</span><input class="sorting-input" name="from" :value="priceFrom"></label>
+        <label><span>До</span><input class="sorting-input" name="to" :value="priceTo"></label>
       </div>
 
       <div class="avia-companies-block block">
@@ -44,7 +44,9 @@
   export default {
     props: {
       sortingOrder: String,
-      filters: Array
+      filters: Array,
+      priceFrom: Number,
+      priceTo: Number
     }
   }
 </script>

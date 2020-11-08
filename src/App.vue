@@ -8,6 +8,10 @@
 
       @add-to-filters="addToFilters"
       :filters="filters"
+
+      @change-price-range="changePriceRange"
+      :price-from="priceFrom"
+      :price-to="priceTo"
     />
     <Flights
       :flights-on-page="flightsOnPage"
@@ -33,6 +37,8 @@ export default {
       sortingOrder: 'inc',
       numberOfFlightsPerPage: 2,
       filters: [],
+      priceFrom: null,
+      priceTo: 1000000,
       flights: result.flights
     }
   },
@@ -41,6 +47,7 @@ export default {
       return [...this.flights]
         .sort(this._getSortFunction(this.sortingOrder))
         .filter(f => !this.filters.length || this.filters.includes(this._getNumberOfTransfers(f)))
+        .filter(f => this._isFlightInPriceRange(f, this.priceFrom, this.priceTo))
         .slice(0, this.numberOfFlightsPerPage)
     }
   },
@@ -50,12 +57,23 @@ export default {
     },
     addToFilters($event) {
       const value = $event.target.value
-      console.log(value)
 
       if (this.filters.includes(value)) {
         this.filters = this.filters.filter(filter => filter !== value)
       } else {
         this.filters.push(value)
+      }
+    },
+    changePriceRange($event) {
+      const value = Number($event.target.value)
+
+      switch ($event.target.name) {
+        case 'from':
+          this.priceFrom = value
+          break
+        case 'to':
+          this.priceTo = value
+          break
       }
     },
 
@@ -74,6 +92,10 @@ export default {
     _getNumberOfTransfers(f) {
       const transfers = f.flight.legs.reduce((transfers, leg) => transfers + leg.segments.length - 1, 0)
       return String(transfers)
+    },
+    _isFlightInPriceRange(f, from, to) {
+      const totalPrice = f.flight.price.total.amount
+      return totalPrice > from && totalPrice < to
     }
   },
   // created() {
