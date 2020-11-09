@@ -30,6 +30,11 @@
       />
       <a href="https://www.google.com/" class="order-page">Заказать</a>
     </div>
+
+    <button
+      class="show-more-flights"
+      @click="$emit('increase-number-of-flights-per-page')"
+    >Показать еще</button>
   </main>
 </template>
 
@@ -80,5 +85,10 @@
     color: white;
     text-align: center;
     text-decoration: none;
+  }
+
+  .show-more-flights {
+    display: block;
+    margin: 30px auto;
   }
 </style>

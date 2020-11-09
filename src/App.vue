@@ -18,6 +18,8 @@
     />
     <Flights
       :flights-on-page="flightsOnPage"
+
+      @increase-number-of-flights-per-page="increaseNumberOfFlightsPerPage"
     />
   </div>
 </template>
@@ -89,6 +91,9 @@ export default {
       } else {
         this.allowableCarriers.push(value)
       }
+    },
+    increaseNumberOfFlightsPerPage() {
+      this.numberOfFlightsPerPage += 2
     },
 
 
