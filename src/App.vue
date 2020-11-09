@@ -12,6 +12,9 @@
       @change-price-range="changePriceRange"
       :price-from="priceFrom"
       :price-to="priceTo"
+
+      @add-to-allowable-carriers="addToAllowableCarriers"
+      :allowable-carriers="allowableCarriers"
     />
     <Flights
       :flights-on-page="flightsOnPage"
@@ -39,6 +42,7 @@ export default {
       filters: [],
       priceFrom: null,
       priceTo: 1000000,
+      allowableCarriers: [],
       flights: result.flights
     }
   },
@@ -48,6 +52,7 @@ export default {
         .sort(this._getSortFunction(this.sortingOrder))
         .filter(f => !this.filters.length || this.filters.includes(this._getNumberOfTransfers(f)))
         .filter(f => this._isFlightInPriceRange(f, this.priceFrom, this.priceTo))
+        .filter(f => this._isCarriersAllowable(f, this.allowableCarriers))
         .slice(0, this.numberOfFlightsPerPage)
     }
   },
@@ -76,6 +81,15 @@ export default {
           break
       }
     },
+    addToAllowableCarriers($event) {
+      const value = $event.target.value
+
+      if (this.allowableCarriers.includes(value)) {
+        this.allowableCarriers = this.allowableCarriers.filter(carrier => carrier !== value)
+      } else {
+        this.allowableCarriers.push(value)
+      }
+    },
 
 
     _getSortFunction(sortingOrder) {
@@ -96,6 +110,9 @@ export default {
     _isFlightInPriceRange(f, from, to) {
       const totalPrice = f.flight.price.total.amount
       return totalPrice > from && totalPrice < to
+    },
+    _isCarriersAllowable(f, listOfCarriers) {
+      return !listOfCarriers.length || listOfCarriers.includes(f.flight.carrier.airlineCode)
     }
   },
   // created() {

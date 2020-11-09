@@ -51,7 +51,7 @@
   }
 
   .flight-card {
-    margin-top: 20px;
+    margin: 20px 0;
     min-width: 600px;
   }
 
@@ -59,12 +59,12 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    padding: 5px 10px;
     background-color: dodgerblue;
     color: white;
   }
   
   .price {
-    padding: 5px 10px;
     text-align: right;
   }
   .price-value {

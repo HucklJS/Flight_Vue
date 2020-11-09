@@ -56,7 +56,7 @@
       getTime(strDate) {
         const date = new Date(Date.parse(strDate))
 
-        return `${date.getHours()}:${date.getMinutes()}`
+        return `${('0' + date.getHours()).slice(-2)}:${('0' + date.getMinutes()).slice(-2)}`
       },
       getDay(strDate) {
         const months = ['янв', 'фев', 'мар', 'апр', 'мая', 'июн', 'июл', 'авг', 'сен', 'окт', 'ноя', 'дек']

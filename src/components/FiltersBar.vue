@@ -31,10 +31,21 @@
         <label><span>До</span><input class="sorting-input" name="to" :value="priceTo"></label>
       </div>
 
-      <div class="avia-companies-block block">
+      <div class="avia-companies-block block" @change="$emit('add-to-allowable-carriers', $event)">
         <span class="block-title">Авиакомпании</span>
-        <label><input type="checkbox" class="sorting-checkbox" name="aeroflot"><span> - Аэрофлот</span></label>
-        <label><input type="checkbox" class="sorting-checkbox" name="polish-airlines"><span> - Polish airlines</span></label>
+        <label>
+          <input
+            type="checkbox" class="sorting-checkbox" name="aeroflot"
+            value="SU" :checked="allowableCarriers.includes('SU')"
+          >
+          <span> - Аэрофлот</span>
+        </label>
+        <label>
+          <input type="checkbox" class="sorting-checkbox" name="polish-airlines"
+                 value="LO" :checked="allowableCarriers.includes('LO')"
+          >
+          <span> - Polish airlines</span>
+        </label>
       </div>
     </div>
   </aside>
@@ -46,7 +57,8 @@
       sortingOrder: String,
       filters: Array,
       priceFrom: Number,
-      priceTo: Number
+      priceTo: Number,
+      allowableCarriers: Array
     }
   }
 </script>
