@@ -1,5 +1,5 @@
 <template>
-  <main>
+  <div class="main">
     <template v-if="flightsOnPage.length">
       <div
         class="flight-card"
@@ -38,7 +38,7 @@
       >Показать еще</button>
     </template>
     <div v-else class="no-flights">По этим фильтрам отображать нечего:(</div>
-  </main>
+  </div>
 </template>
 
 <script>
@@ -54,7 +54,7 @@
 </script>
 
 <style scoped>
-  main {
+  .main {
     padding-left: 20px;
   }
 

@@ -58,6 +58,7 @@ export default {
         .slice(0, this.numberOfFlightsPerPage)
     }
   },
+  
   methods: {
     changeSortOrder($event) {
       this.sortingOrder = $event.target.value
